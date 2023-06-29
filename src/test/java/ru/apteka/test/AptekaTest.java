@@ -41,7 +41,7 @@ public class AptekaTest extends WebTest {
             tab.hover();
         });
 
-        step("Кликнуть на появившуюся подкатегорию", () -> {
+        step("Кликнуть на появившуюся подкатегорию...", () -> {
             ElementsCollection subtabs = mainPage.getSubtabs(tab);
             subtabs.filter(text("Для подготовки к медицинским обследованиям")).get(0).click();
         });
