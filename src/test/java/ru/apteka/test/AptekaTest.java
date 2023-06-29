@@ -35,7 +35,7 @@ public class AptekaTest extends WebTest {
     @Feature("Каталог товаров")
     @Story("Подкатегории")
     public void shouldOpenCatalogTab() {
-        SelenideElement tab = mainPage.tabs.filter(text("Аптечки"));
+        SelenideElement tab = mainPage.tabs.filter(text("Аптечки")).first();
 
         step("Навести курсор на вкладку", () -> {
             tab.hover();
