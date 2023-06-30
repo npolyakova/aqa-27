@@ -15,8 +15,7 @@ public class WebTest {
 
     @BeforeAll
     public static void setDriver() throws MalformedURLException {
-        boolean isRemote = true;
-        if (isRemote) {
+        if (Boolean.getBoolean(System.getenv("IS_REMOTE"))) {
             DesiredCapabilities capabilities = new DesiredCapabilities();
             capabilities.setBrowserName("chrome");
             capabilities.setCapability("enableVNC:", true);
