@@ -15,6 +15,7 @@ public class WebTest {
 
     @BeforeAll
     public static void setDriver() throws MalformedURLException {
+        System.out.println(System.getenv("IS_REMOTE"));
         if (Boolean.getBoolean(System.getenv("IS_REMOTE"))) {
             DesiredCapabilities capabilities = new DesiredCapabilities();
             capabilities.setBrowserName("chrome");
