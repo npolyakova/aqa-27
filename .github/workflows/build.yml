@@ -3,6 +3,22 @@ name: Build + tests
 on:
   pull_request:
     branches: [ "master" ]
+    workflow_dispatch:
+      inputs:
+        TEST_ENDPOINT:
+          description: "Endpoint for tests"
+          required: true
+          default: https://klassika-apteka.ru
+        TEST_BROWSER:
+          description: "Browser for tests"
+          required: true
+          default: chrome
+        ALLURE_JOB_RUN_ID:
+          description: "ALLURE_JOB_RUN_ID service parameter. Leave blank."
+          required: false
+        ALLURE_USERNAME:
+          description: "ALLURE_USERNAME service parameter. Leave blank"
+          required: false
 
 env:
   IS_REMOTE: true
@@ -30,7 +46,7 @@ jobs:
       - name: install and configure allurectl
         uses: allure-framework/setup-allurectl@v1
         with:
-          allure-endpoint: https://testing.allure.aws.qameta.in
+          allure-endpoint: ${{ ALLURE_ENDPOINT }}
           allure-token: ${{ secrets.ALLURE_TOKEN }}
           allure-project-id: ${{ secrets.ALLURE_PROJECT_ID }}
       - name: Build with Gradle
@@ -42,9 +58,3 @@ jobs:
         env:
           TEST_ENDPOINT: ${{ github.event.inputs.TEST_ENDPOINT }}
           TEST_BROWSER: ${{ github.event.inputs.TEST_BROWSER }}
-      - name: Get ALLURE_ environments just to check
-        run: |
-          printenv | grep ALLURE_
-      - name: Get GITHUB_ environments just to check
-        run: |
-          printenv | grep GITHUB_

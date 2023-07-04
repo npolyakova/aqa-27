@@ -40,11 +40,10 @@ public class AptekaTest extends WebTest {
         $(".big_logo").shouldBe(visible);
         mainPage.tabs.shouldHave(sizeGreaterThan(0));
         SelenideElement tab = mainPage.tabs.filter(text("Аптечки")).get(0);
-        tab.hover();
 
-//        step("Навести курсор на вкладку", () -> {
-//
-//        });
+        step("Навести курсор на вкладку", () -> {
+            tab.hover();
+        });
 
         step("Кликнуть на появившуюся подкатегорию", () -> {
             ElementsCollection subtabs = mainPage.getSubtabs(tab);
