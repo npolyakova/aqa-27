@@ -2,10 +2,14 @@ name: Build + tests
 
 on:
   pull_request:
-    branches: ["master"]
+    branches: [ "master" ]
 
 env:
   IS_REMOTE: true
+  ALLURE_ENDPOINT: https://testing.allure.aws.qameta.in
+  ALLURE_TOKEN: ${{ secrets.ALLURE_TOKEN }}
+  ALLURE_PROJECT_ID: ${{ secrets.ALLURE_PROJECT_ID }}
+  ALLURE_RESULTS: "build/allure-results"
 
 permissions:
   contents: read
@@ -22,6 +26,27 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
+      - name: install and configure allurectl
+        uses: allure-framework/setup-allurectl@v1
+        with:
+          allure-endpoint: https://testing.allure.aws.qameta.in
+          allure-token: ${{ secrets.ALLURE_TOKEN }}
+          allure-project-id: ${{ secrets.ALLURE_PROJECT_ID }}
+      - name: Build with Gradle
+        run: |
+          allurectl watch -- ./gradlew clean test
+          export $( allurectl job-run env)
+          printenv | grep TEST_
+          printenv | grep ALLURE_
+        env:
+          TEST_ENDPOINT: ${{ github.event.inputs.TEST_ENDPOINT }}
+          TEST_BROWSER: ${{ github.event.inputs.TEST_BROWSER }}
+      - name: Get ALLURE_ environments just to check
+        run: |
+          printenv | grep ALLURE_
+      - name: Get GITHUB_ environments just to check
+        run: |
+          printenv | grep GITHUB_
       - name: Build with Gradle
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
         with:
