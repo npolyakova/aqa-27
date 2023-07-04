@@ -1,6 +1,5 @@
 package ru.apteka.test;
 
-import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
@@ -14,6 +13,7 @@ import org.openqa.selenium.Cookie;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.refresh;
 import static io.qameta.allure.Allure.step;
@@ -37,6 +37,7 @@ public class AptekaTest extends WebTest {
     @Feature("Каталог товаров")
     @Story("Подкатегории")
     public void shouldOpenCatalogTab() {
+        $(".big_logo").shouldBe(visible);
         mainPage.tabs.shouldHave(sizeGreaterThan(0));
         SelenideElement tab = mainPage.tabs.filter(text("Аптечки")).get(0);
 
