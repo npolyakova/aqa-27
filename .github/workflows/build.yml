@@ -3,6 +3,7 @@ name: Build + tests
 on:
   pull_request:
     branches: [ "master" ]
+  push:
     workflow_dispatch:
       inputs:
         TEST_ENDPOINT:
